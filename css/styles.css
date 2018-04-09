@@ -29,6 +29,7 @@ body {
 a {
 	color: orange;
 	text-decoration: none;
+    padding: 15px 3px;
 }
 
 a:hover, 
@@ -39,6 +40,10 @@ a:focus {
 
 a img {
 	border: none 0 #fff;
+}
+
+button {
+    padding: 12px; 
 }
 
 h1, 
@@ -167,7 +172,7 @@ nav h1 a {
     height: 35px;
     letter-spacing: 0;
     margin: 10px;
-    padding: 0 10px;
+    padding: 7px 10px;
     width: 200px;
 }
 
@@ -189,7 +194,7 @@ nav h1 a {
     min-height: 380px;
     padding: 0 30px 25px;
     text-align: left;
-    width: 270px;
+    width: 270px; /* TODO: set relative width */
 }
 
 #restaurants-list .restaurant-img {
@@ -224,7 +229,7 @@ nav h1 a {
     display: inline-block;
     font-size: 16px;
     margin: 15px 0 0;
-    padding: 8px 30px 10px;
+    padding: 11px 30px;
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
