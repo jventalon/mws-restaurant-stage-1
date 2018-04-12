@@ -14,10 +14,8 @@ th,
 p,
 ul,
 li {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 16px;
+	font: 16px/1.5 Arial, Helvetica, sans-serif;
 	color: #333;
-	line-height: 1.5;
 }
 
 body {
@@ -40,10 +38,6 @@ a:focus {
 
 a img {
 	border: none 0 #fff;
-}
-
-button {
-    padding: 12px; 
 }
 
 h1, 
@@ -80,7 +74,6 @@ section {
     background-color: #444;
     color: #aaa;
     font-size: 16px;
-    letter-spacing: 1px;
     padding: 25px;
     text-align: center;
     text-transform: uppercase;
@@ -144,45 +137,45 @@ nav h1 a {
 /* ====================== Map ====================== */
 #map {
     height: 400px;
-    width: 100%;
     background-color: #ccc;
 }
 
 
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
-    width: 100%;
-    height: 50px;
     background-color: #3397db;
-    align-items: center;
+    padding: 20px;
+    text-align: center;
 }
 
 .filter-options h2 {
     color: white;
-    font-size: 1rem;
+    font-size: 20px;
     font-weight: normal;
-    line-height: 1.2;
-    margin: 0 20px;
 }
+
 .filter-options select {
     background-color: white;
     border: 1px solid #fff;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    height: 35px;
-    letter-spacing: 0;
-    margin: 10px;
-    padding: 7px 10px;
-    width: 200px;
+    font: 16px Arial, sans-serif;
+    padding: 13px 10px;
+    margin: 20px 0;
+    width: 100%;
+    
 }
-
+.filter-options select:first-of-type {
+    margin: 0 0 20px;
+}
+.filter-options select:last-of-type {
+    margin: 20px 0 0;
+}
 
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
     background-color: #f3f3f3;
     list-style: outside none none;
     margin: 0;
-    padding: 30px 15px 60px;
+    padding: 20px 15px;
     text-align: center;
 }
 
@@ -194,7 +187,7 @@ nav h1 a {
     min-height: 380px;
     padding: 0 30px 25px;
     text-align: left;
-    width: 270px; /* TODO: set relative width */
+    text-align: center;
 }
 
 #restaurants-list .restaurant-img {
@@ -203,7 +196,6 @@ nav h1 a {
     margin: 0;
     max-width: 100%;
     min-height: 248px;
-    min-width: 100%;
 }
 
 #restaurants-list li h1 {
