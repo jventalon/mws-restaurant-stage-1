@@ -92,6 +92,7 @@ nav h1 a {
     font-size: 22px;
     font-weight: 200;
     letter-spacing: 5px;
+    word-spacing: 5px;
     text-transform: uppercase;
 }
 
@@ -280,8 +281,9 @@ nav h1 a {
     padding: 10px;
 }
 
-#restaurant-hours td {
-    padding: 0 5px 0 0;
+#restaurant-hours td:last-of-type {
+    padding: 0 0 0 1.3em;
+    text-align: center;
 }
 
 .review_header {
@@ -314,4 +316,30 @@ nav h1 a {
 .review_content {
     margin: 0 0 10px;
     padding: 0 20px;
+}
+
+
+/* ====================== Screen width from 371px to 480px ====================== */
+@media screen and (min-width:371px) {
+    nav {
+        padding: 10px 30px;
+    }
+    
+    nav h1 a {
+        font-size: 25px;
+    }
+    
+    #restaurant-hours td:first-of-type {
+        padding: 0 10px;
+    }
+    
+    #restaurant-hours td:last-of-type {
+        padding: 0 1.7em;
+    }
+}
+
+@media screen and (min-width:451px) {
+    nav {
+        padding: 25px 30px;
+    }
 }
