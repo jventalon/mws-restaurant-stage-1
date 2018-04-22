@@ -58,11 +58,11 @@ section {
 	display: block;
 }
 
-#maincontent {
+.maincontent {
     background-color: #f3f3f3;
 }
 
-#footer {
+.footer {
     background-color: #444;
     color: #aaa;
     padding: 20px;
@@ -160,7 +160,7 @@ select:hover {
 
 
 /* ====================== Map ====================== */
-#map {
+.map {
     height: 300px;
     background-color: #ccc;
 }
@@ -197,7 +197,7 @@ select:hover {
 
 
 /* ====================== Restaurant Listing ====================== */
-#restaurants-list {
+.restaurants {
     background-color: #f3f3f3;
     list-style: outside none none;
     padding: 15px 0;
@@ -219,7 +219,7 @@ select:hover {
     text-transform: uppercase;
 }
 
-#restaurants-list p {
+.restaurant p {
     margin: 0 15px;
     font-size: 17px;
 }
@@ -238,7 +238,7 @@ select:hover {
 
 
 /* ====================== Restaurant Details ====================== */
-#restaurant-name {
+.restaurant-title h1 {
     color: #f18200;
     font: 200 26px Arial,sans-serif;
     margin: 15px 0 20px;
@@ -282,21 +282,21 @@ select:hover {
     width: 100%;
 }
 
-#restaurant-container {
+.restaurant-details {
     border-bottom: 1px solid #ccc;
     padding: 20px;
 }
 
-#restaurant-container img {
+.restaurant-image img {
     border-radius: 3px;
 }
 
-#reviews-container {
+.reviews {
     border-top: 1px solid #fff;
     padding: 20px;
 }
 
-#reviews-container h2 {
+.reviews h2 {
     color: #f58500;
     font-size: 32px;
     font-weight: 300;
@@ -304,7 +304,7 @@ select:hover {
     text-align: center;
 }
 
-#reviews-list {
+.reviews ul {
     margin: 0;
     padding: 0;
 }
@@ -324,13 +324,13 @@ select:hover {
     align-items: center;
 }
 
-#restaurant-hours {
+.restaurant-hours table {
     color: #666;
     width: 100%;
     padding: 10px;
 }
 
-#restaurant-hours td:last-of-type {
+.restaurant-hours td:last-of-type {
     padding: 0 0 0 1em;
     text-align: center;
 }
@@ -378,11 +378,11 @@ select:hover {
         font-size: 25px;
     }
 
-    #restaurant-hours td:first-of-type {
+    .restaurant-hours td:first-of-type {
         padding: 0 0 0 10px;
     }
 
-    #restaurant-hours td:last-of-type {
+    .restaurant-hours td:last-of-type {
         padding: 0 1.7em;
     }
 }
@@ -396,7 +396,7 @@ select:hover {
 
 /* ====================== Screen width from 481px to 540px ====================== */
 @media screen and (min-width:481px) {
-    #map {
+    .map {
         height: 450px;
     }
 
@@ -475,11 +475,11 @@ select:hover {
         width: 100%;
     }
 
-    #restaurant-container img {
+    .restaurant-image img {
         border-radius: 0;
     }
 
-    #restaurant-hours td:first-of-type {
+    .restaurant-hours td:first-of-type {
         padding: 0 0 0 30px;
     }
 }
@@ -523,8 +523,8 @@ select:hover {
 
 /* ====================== Screen width above 1200px ====================== */
 @media screen and (min-width:1200px) {
-    #maincontent,
-    #breadcrumb {
+    .maincontent,
+    .main-breadcrumb ul {
         width: 1200px;
         margin: 0 auto;
     }
