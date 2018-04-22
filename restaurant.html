@@ -1,85 +1,87 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Normalize.css for better cross-browser consistency -->
-    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css">
-    <!-- Main CSS file -->
-    <link rel="stylesheet" href="css/styles.css">
-    <title>Restaurant Info</title>
-</head>
+    <head>
+        <!-- Set UTF-8 encoding -->
+        <meta charset="utf-8">
+        <!-- Set the viewport for mobile optimization -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Normalize.css for better cross-browser consistency -->
+        <link rel="stylesheet" href="//normalize-css.googlecode.com/svn/trunk/normalize.css">
+        <!-- Main CSS file -->
+        <link rel="stylesheet" href="css/styles.css">
+        <title>Restaurant Info</title>
+    </head>
 
-<body class="inside">
-    <!-- Beginning header -->
-    <header>
-        <!-- Beginning nav -->
-        <nav class="main-header">
-            <h1><a href="/">Restaurant Reviews</a></h1>
-        </nav>
-        <!-- End nav -->
-        <!-- Beginning breadcrumb -->
-        <nav class="main-breadcrumb">
-            <ul id="breadcrumb" >
-                <li><a href="/">Home</a></li>
-            </ul>
-        </nav>
-        <!-- End breadcrumb -->
-    </header>
-    <!-- End header -->
+    <body class="inside">
+        <!-- Beginning header -->
+        <header>
+            <!-- Beginning nav -->
+            <nav class="main-header">
+                <h1><a href="/">Restaurant Reviews</a></h1>
+            </nav>
+            <!-- End nav -->
+            <!-- Beginning breadcrumb -->
+            <nav class="main-breadcrumb">
+                <ul id="breadcrumb" >
+                    <li><a href="/">Home</a></li>
+                </ul>
+            </nav>
+            <!-- End breadcrumb -->
+        </header>
+        <!-- End header -->
 
-    <!-- Beginning main -->
-    <main id="maincontent">
-        <!-- Beginning map -->
-        <section id="map-container">
-            <div id="map" tabindex="0" role="application" aria-label="Map showing the restaurant location"></div>
-        </section>
-        <!-- End map -->
-        <!-- Beginning restaurant -->
-        <section class="container" id="restaurant-container">
-            <div class="box restaurant-title">
-                <h1 id="restaurant-name"></h1>
-            </div>
-            <div class="box restaurant-image">
-                <img id="restaurant-img">
-            </div>
-            <div class="box container restaurant-info">
-                <div class="box restaurant-cuisine">
-                    <p id="restaurant-cuisine"></p>
+        <!-- Beginning main -->
+        <main id="maincontent">
+            <!-- Beginning map -->
+            <section id="map-container">
+                <div id="map" tabindex="0" role="application" aria-label="Map showing the restaurant location"></div>
+            </section>
+            <!-- End map -->
+            <!-- Beginning restaurant -->
+            <section class="container" id="restaurant-container">
+                <div class="box restaurant-title">
+                    <h1 id="restaurant-name"></h1>
                 </div>
-                <div class="box restaurant-address">
-                    <p id="restaurant-address"></p>
+                <div class="box restaurant-image">
+                    <img id="restaurant-img">
                 </div>
-                <div class="box restaurant-hours">
-                    <table id="restaurant-hours"></table>
+                <div class="box container restaurant-info">
+                    <div class="box restaurant-cuisine">
+                        <p id="restaurant-cuisine"></p>
+                    </div>
+                    <div class="box restaurant-address">
+                        <p id="restaurant-address"></p>
+                    </div>
+                    <div class="box restaurant-hours">
+                        <table id="restaurant-hours"></table>
+                    </div>
                 </div>
-            </div>
-        </section>
-        <!-- end restaurant -->
-        <!-- Beginning reviews -->
-        <section id="reviews-container">
-            <ul class="container" id="reviews-list"></ul>
-        </section>
-        <!-- End reviews -->
-    </main>
-    <!-- End main -->
+            </section>
+            <!-- End restaurant -->
+            <!-- Beginning reviews -->
+            <section id="reviews-container">
+                <ul class="container" id="reviews-list"></ul>
+            </section>
+            <!-- End reviews -->
+        </main>
+        <!-- End main -->
 
-    <!-- Beginning footer -->
-    <footer id="footer">
-        Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
-    </footer>
-    <!-- End footer -->
+        <!-- Beginning footer -->
+        <footer id="footer">
+            Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+        </footer>
+        <!-- End footer -->
 
-    <!-- Beginning scripts -->
-    <!-- Database helpers -->
-    <script src="js/dbhelper.js"></script>
-    <!-- Main javascript file -->
-    <script src="js/restaurant_info.js"></script>
-    <!-- Google Maps -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWEO46QmCjWFGK6TpdO-6S9KBFYt_2SBo&libraries=places&callback=initMap"></script>
-    <!-- End scripts -->
+        <!-- Beginning scripts -->
+        <!-- Database helpers -->
+        <script src="js/dbhelper.js"></script>
+        <!-- Main javascript file -->
+        <script src="js/restaurant_info.js"></script>
+        <!-- Google Maps -->
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWEO46QmCjWFGK6TpdO-6S9KBFYt_2SBo&libraries=places&callback=initMap"></script>
+        <!-- End scripts -->
 
-</body>
+    </body>
 
 </html>
