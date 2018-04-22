@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 
-img, 
+img,
 embed,
 object,
 video {
@@ -33,27 +33,27 @@ a img {
 	border: none 0 #fff;
 }
 
-h1, 
-h2, 
-h3, 
-h4, 
-h5, 
+h1,
+h2,
+h3,
+h4,
+h5,
 h6 {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0 0 20px;
 }
 
-article, 
-aside, 
-canvas, 
-details, 
-figcaption, 
-figure, 
-footer, 
-header, 
-hgroup, 
-menu, 
-nav, 
+article,
+aside,
+canvas,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
 section {
 	display: block;
 }
@@ -183,7 +183,8 @@ select:hover {
     margin: 0;
 }
 
-.filter-options-neighborhoods, .filter-options-cuisines {
+.filter-options-neighborhoods,
+.filter-options-cuisines {
     margin: 20px 0;
 }
 
@@ -283,7 +284,7 @@ select:hover {
 
 #restaurant-container {
     border-bottom: 1px solid #ccc;
-    padding: 20px;   
+    padding: 20px;
 }
 
 #restaurant-container img {
@@ -334,34 +335,34 @@ select:hover {
     text-align: center;
 }
 
-.review_header {
+.review-header {
     background-color: #333;
     color: #ddd;
     padding: 15px 20px;
 }
 
-.review_author {
+.review-author {
     font-size: 18px;
     font-weight: bold;
     letter-spacing: 1px;
 }
 
-.review_date {
+.review-date {
     float: right;
 }
 
-.review_rating_container {
+.review-rating-container {
     margin: 20px 15px 15px;
 }
 
-.review_rating {
+.review-rating {
     background-color: #f58500;
     color: #fff;
     padding: 5px 10px;
     border-radius: 3px;
 }
 
-.review_content {
+.review-content {
     margin: 0 0 10px;
     padding: 0 20px;
 }
@@ -372,15 +373,15 @@ select:hover {
     .main-header {
         padding: 10px 30px;
     }
-    
+
     .main-header h1 a {
         font-size: 25px;
     }
-    
+
     #restaurant-hours td:first-of-type {
         padding: 0 0 0 10px;
     }
-    
+
     #restaurant-hours td:last-of-type {
         padding: 0 1.7em;
     }
@@ -398,15 +399,16 @@ select:hover {
     #map {
         height: 450px;
     }
-    
-    .filter-options-neighborhoods, .filter-options-cuisines {
+
+    .filter-options-neighborhoods,
+    .filter-options-cuisines {
         width: calc(50% - 20px);
     }
-    
+
     .filter-options-neighborhoods {
         margin: 20px 20px 0 0;
     }
-    
+
     .filter-options-cuisines {
         margin: 20px 0 0 20px;
     }
@@ -418,11 +420,11 @@ select:hover {
     .restaurant-address {
         width: 30%;
     }
-    
+
     .restaurant-hours {
         width: 70%;
     }
-    
+
     .restaurant {
         width: calc(50% - 54px);
     }
@@ -434,11 +436,11 @@ select:hover {
     .review {
         width: calc(50% - 14px);
     }
-    
+
     .review:nth-child(odd) {
         margin: 20px 10px 20px 0;
     }
-    
+
     .review:nth-child(even) {
         margin: 20px 0 20px 10px;
     }
@@ -453,30 +455,30 @@ select:hover {
         display: flex;
         align-items: center;
     }
-    
+
     .restaurant-info {
         width: 45%;
         margin: 0;
         border: none;
     }
-    
+
     .restaurant-address {
         width: 100%;
     }
-    
+
     .restaurant-address p {
         margin: 0;
         padding: 10px;
     }
-    
+
     .restaurant-hours {
         width: 100%;
     }
-    
+
     #restaurant-container img {
         border-radius: 0;
     }
-    
+
     #restaurant-hours td:first-of-type {
         padding: 0 0 0 30px;
     }
@@ -488,31 +490,31 @@ select:hover {
     .filter-options {
         padding: 30px;
     }
-    
+
     .filter-options-title {
         width: 20%;
         margin: 10px 0;
         text-align: left;
     }
-    
+
     .filter-options-neighborhoods {
         width: calc(40% - 20px);
         margin: 0 20px 0 0;
     }
-    
+
     .filter-options-cuisines {
         width: calc(40% - 20px);
         margin: 0 0 0 20px;
     }
-    
+
     .restaurant {
         width: calc(33.33% - 54px);
     }
-    
+
     .restaurant-image {
         width: 60%;
     }
-    
+
     .restaurant-info {
         width: 40%;
     }
@@ -521,15 +523,16 @@ select:hover {
 
 /* ====================== Screen width above 1200px ====================== */
 @media screen and (min-width:1200px) {
-    #maincontent, #breadcrumb {
+    #maincontent,
+    #breadcrumb {
         width: 1200px;
         margin: 0 auto;
     }
-    
+
     .restaurant-image {
         width: 65%;
     }
-    
+
     .restaurant-info {
         width: 35%;
     }
