@@ -1,8 +1,8 @@
 let restaurants,
     neighborhoods,
-    cuisines
-var map
-var markers = []
+    cuisines;
+var map;
+var markers = [];
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -178,3 +178,27 @@ addMarkersToMap = (restaurants = self.restaurants) => {
         self.markers.push(marker);
     });
 }
+
+/**
+ * Register the service worker.
+ */
+registerServiceWorker = () => {
+  if (!navigator.serviceWorker) return;
+
+  navigator.serviceWorker.register('/js/sw/index.js').then(function(reg) {
+    if (!navigator.serviceWorker.controller) {
+      return;
+    }
+
+    // Ensure refresh is only called once.
+    // This works around a bug in "force update on reload".
+    var refreshing;
+    navigator.serviceWorker.addEventListener('controllerchange', function() {
+      if (refreshing) return;
+      window.location.reload();
+      refreshing = true;
+    });
+  });
+}
+
+registerServiceWorker();
