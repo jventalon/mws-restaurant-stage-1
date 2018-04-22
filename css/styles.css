@@ -29,12 +29,6 @@ a {
     padding: 15px 3px;
 }
 
-a:hover, 
-a:focus {
-	color: #3397db;
-	text-decoration: none;
-}
-
 a img {
 	border: none 0 #fff;
 }
@@ -86,6 +80,36 @@ section {
 }
 
 
+/* ====================== Hover and focus ====================== */
+:focus {
+    outline: 0;
+    box-shadow: 0 0 1px 2px orange;
+}
+
+a:hover,
+a:focus,
+select:hover,
+select:focus {
+    text-decoration: underline;
+}
+
+select:hover {
+    cursor: pointer;
+}
+
+.restaurant a:hover,
+.restaurant a:focus {
+    color: orange;
+    background-color: white;
+    border: 2px solid orange;
+}
+
+.main-breadcrumb ul li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+}
+
+
 /* ====================== Navigation ====================== */
 .main-header {
     background-color: #252831;
@@ -112,7 +136,7 @@ section {
 }
 
 .main-breadcrumb ul {
-    padding: 10px 15px;
+    padding: 15px;
     list-style: none;
     margin: 0;
 }
@@ -132,13 +156,6 @@ section {
 /* Add a color to all links inside the list */
 .main-breadcrumb ul li a {
     color: #0275d8;
-    text-decoration: none;
-}
-
-/* Add a color on mouse-over */
-.main-breadcrumb ul li a:hover {
-    color: #01447e;
-    text-decoration: underline;
 }
 
 
@@ -187,14 +204,14 @@ section {
     text-align: center;
 }
 
-#restaurants-list li {
+.restaurant {
     background-color: #fff;
     border: 2px solid #ccc;
     padding: 0 0 20px;
     margin: 25px;
 }
 
-#restaurants-list li h1 {
+.restaurant h1 {
     color: #f18200;
     font: 200 18px/1.3 Arial, sans-serif;
     margin: 20px 10px 10px;
@@ -206,16 +223,15 @@ section {
     font-size: 17px;
 }
 
-#restaurants-list li a {
+.restaurant a {
     background-color: orange;
     border-bottom: 3px solid #eee;
-    color: #fff;
+    color: white;
     display: inline-block;
     font-size: 16px;
     margin: 15px 0 0;
     padding: 11px 30px;
     text-align: center;
-    text-decoration: none;
     text-transform: uppercase;
 }
 
