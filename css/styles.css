@@ -212,7 +212,7 @@ select:hover {
     margin: 25px;
 }
 
-.restaurant h1 {
+.restaurant h2 {
     color: #f18200;
     font: 200 18px/1.3 Arial, sans-serif;
     margin: 20px 10px 10px;
@@ -238,7 +238,7 @@ select:hover {
 
 
 /* ====================== Restaurant Details ====================== */
-.restaurant-title h1 {
+.restaurant-title h2 {
     color: #f18200;
     font: 200 26px Arial,sans-serif;
     margin: 15px 0 20px;
@@ -296,7 +296,7 @@ select:hover {
     padding: 20px;
 }
 
-.reviews h2 {
+.reviews h3 {
     color: #f58500;
     font-size: 32px;
     font-weight: 300;
