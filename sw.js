@@ -5,12 +5,11 @@ var allCaches = [
 ];
 
 self.addEventListener('install', function(event) {
-    console.log('install');
   event.waitUntil(
     caches.open(staticCacheName).then(function(cache) {
       const imageUrls = Array.from(Array(10).keys()).map(i => `/img/${i +1}.jpg`);
       return cache.addAll([
-        '/index.html',
+        '/',
         '/restaurant.html',
         '/js/main.js',
         '/js/restaurant_info.js',
@@ -39,11 +38,9 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-  var requestUrl = new URL(event.request.url);
-
-  event.respondWith(
-    caches.match(event.request).then(function(response) {
-      return response || fetch(event.request);
-    })
-  );
+      event.respondWith(
+        caches.match(event.request).then(function(response) {
+          return response || fetch(event.request);
+        })
+      );
 });
