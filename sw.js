@@ -38,9 +38,16 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-      event.respondWith(
-        caches.match(event.request).then(function(response) {
-          return response || fetch(event.request);
+    let request = event.request;
+    // remove the url parameters of the restaurant page to match with the cache
+    let urlParts = request.url.split('?');
+    if (urlParts.length > 1 && urlParts[0].includes('restaurant.html')) {
+        let url = new URL(urlParts[0]);
+        request = new Request(url);
+    }
+    event.respondWith(
+        caches.match(request).then(function(response) {
+            return response || fetch(request);
         })
-      );
+    );
 });
