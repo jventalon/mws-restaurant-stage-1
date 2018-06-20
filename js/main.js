@@ -149,7 +149,7 @@ createRestaurantHTML = (restaurant) => {
 
     const image = document.createElement('img');
     image.className = 'restaurant-img';
-    image.alt = '';
+    image.alt = ''; // empty alt as per W3C recommendation as it is only a decorative thumbnail image which don’t add any information (the restaurant name is already in the heading below it)
     image.src = DBHelper.imageUrlForRestaurant(restaurant);
     li.append(image);
 
