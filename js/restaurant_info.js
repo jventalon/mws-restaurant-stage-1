@@ -1,11 +1,17 @@
 let restaurant;
 var newMap;
+var idbPromise;
 
 /**
  * Initialize map as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  initMap();
+    // open idenxedDB database
+    idbPromise = IndexedDBHelper.openIDB();
+    // register service worker
+    registerServiceWorker();
+    // initialize the map and restaurant
+    initMap();
 });
 
 /**
@@ -39,25 +45,35 @@ initMap = () => {
  * Get current restaurant from page URL.
  */
 fetchRestaurantFromURL = (callback) => {
-    if (self.restaurant) { // restaurant already fetched!
-        callback(null, self.restaurant)
-        return;
-    }
     const id = getParameterByName('id');
     if (!id) { // no id found in URL
         error = 'No restaurant id in URL'
         callback(error, null);
     } else {
-        DBHelper.fetchRestaurantById(id, (error, restaurant) => {
-            self.restaurant = restaurant;
-            if (!restaurant) {
-                console.error(error);
-                return;
+        IndexedDBHelper.getRestaurantById(idbPromise, id, restaurant => {
+            if (restaurant) {
+                self.restaurant = restaurant;
+                fillRestaurantHTML();
             }
-            fillRestaurantHTML();
-            callback(null, restaurant)
-        });
+        }).then(() => fetchRestaurantById(id, callback));
+        
     }
+}
+
+/**
+ * Fetch restaurant from the server by id.
+ */
+fetchRestaurantById = (id, callback) => {
+    DBHelper.fetchRestaurantById(id, (error, restaurant) => {
+        self.restaurant = restaurant;
+        if (!restaurant) {
+            console.error(error);
+            return;
+        }
+        IndexedDBHelper.storeRestaurant(idbPromise, restaurant);
+        fillRestaurantHTML();
+        callback(null, restaurant)
+    });
 }
 
 /**
@@ -191,4 +207,26 @@ getParameterByName = (name, url) => {
     if (!results[2])
         return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+/**
+ * Register the service worker.
+ */
+registerServiceWorker = () => {
+  if (!navigator.serviceWorker) return;
+
+  navigator.serviceWorker.register('../../sw.js').then(function(reg) {
+    if (!navigator.serviceWorker.controller) {
+        return;
+    }
+
+    // Ensure refresh is only called once.
+    // This works around a bug in "force update on reload".
+    let refreshing;
+    navigator.serviceWorker.addEventListener('controllerchange', function() {
+        if (refreshing) return;
+        window.location.reload();
+        refreshing = true;
+    });
+  });
 }

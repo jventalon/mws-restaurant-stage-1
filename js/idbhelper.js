@@ -30,7 +30,7 @@ class IndexedDBHelper {
     }
 
     /**
-     * Store restaurant data into indexedDB database.
+     * Store all restaurant data into indexedDB database.
      */
     static storeRestaurants(idbPromise, restaurants) {
         idbPromise.then(db => {
@@ -43,9 +43,23 @@ class IndexedDBHelper {
             });
         });
     }
+    
+    /**
+     * Store one restaurant data into indexedDB database.
+     */
+    static storeRestaurant(idbPromise, restaurant) {
+        console.log('store resto:' + restaurant);
+        idbPromise.then(db => {
+            if (!db) return;
+            
+            db.transaction('restaurant', 'readwrite')
+                .objectStore('restaurant')
+                .put(restaurant);
+        });
+    }
 
     /**
-     * Store neighborhood data into indexedDB database.
+     * Store all neighborhood data into indexedDB database.
      */
     static storeNeighborhoods(idbPromise, neighborhoods) {
         idbPromise.then(db => {
@@ -63,7 +77,7 @@ class IndexedDBHelper {
     }
 
     /**
-     * Store cuisine data into indexedDB database.
+     * Store all cuisine data into indexedDB database.
      */
     static storeCuisines(idbPromise, cuisines) {
         idbPromise.then(db => {
@@ -103,6 +117,20 @@ class IndexedDBHelper {
                 promise = store.getAll();
             }
             return promise.then(restaurants => callback(restaurants));
+        });
+    }
+    
+     /**
+     * Get a restaurant stored into indexedDB database by id.
+     */
+    static getRestaurantById(idbPromise, id, callback) {
+        return idbPromise.then(db => {
+            if (!db) return;
+            // get restaurant stored into IDB by id
+            return db.transaction('restaurant')
+                .objectStore('restaurant')
+                .get(Number(id))
+                .then(restaurant => callback(restaurant));
         });
     }
     
