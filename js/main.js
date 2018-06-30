@@ -10,7 +10,7 @@ var idbPromise;
  */
 document.addEventListener('DOMContentLoaded', (event) => {
     // open idenxedDB database
-    idbPromise = openIDB();
+    idbPromise = IndexedDBHelper.openIDB();
     // register service worker
     registerServiceWorker();
     // initialize the map and restaurants
@@ -25,23 +25,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
  */
 loadNeighborhoods = () => {
     // get all neighborhoods stored into IDB
-    idbPromise.then(db => {
-        if (!db) return;
-        
-        // get neighborhoods stored into IDB
-        return db.transaction('neighborhood')
-            .objectStore('neighborhood')
-            .getAll()
-            .then(neighborhoods => {
-                if (neighborhoods) {
-                    self.neighborhoods = neighborhoods.map(neighborhood => neighborhood.name);
-                    fillNeighborhoodsHTML();
-                }
-            });
-    }).then(() => {
-        // get all neighborhoods from the server
-        fetchNeighborhoods();
-    });
+    IndexedDBHelper.getNeighborhoods(idbPromise, neighborhoods => {
+        if (neighborhoods) {
+            self.neighborhoods = neighborhoods.map(neighborhood => neighborhood.name);
+            fillNeighborhoodsHTML();
+        }
+    }).then(() => fetchNeighborhoods());
 }
 
 /**
@@ -53,7 +42,7 @@ fetchNeighborhoods = () => {
             console.error(error);
         } else {
             self.neighborhoods = neighborhoods;
-            storeNeighborhoods(neighborhoods);
+            IndexedDBHelper.storeNeighborhoods(idbPromise, neighborhoods);
             fillNeighborhoodsHTML();
         }
     });
@@ -77,22 +66,12 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
  */
 loadCuisines = () => {
     // get all cuisines stored into IDB
-    idbPromise.then(db => {
-        if (!db) return;
-        
-        return db.transaction('cuisine')
-            .objectStore('cuisine')
-            .getAll()
-            .then(cuisines => {
-                if (cuisines) {
-                    self.cuisines = cuisines.map(cuisine => cuisine.name);
-                    fillCuisinesHTML();
-                }
-            });
-    }).then(() => {
-        // get all cuisines from the server
-        fetchCuisines();
-    });
+    IndexedDBHelper.getCuisines(idbPromise, cuisines => {
+        if (cuisines) {
+            self.cuisines = cuisines.map(cuisine => cuisine.name);
+            fillCuisinesHTML();
+        }
+    }).then(() => fetchCuisines());
 }
 
 /**
@@ -104,7 +83,7 @@ fetchCuisines = () => {
             console.error(error);
         } else {
             self.cuisines = cuisines;
-            storeCuisines(cuisines);
+            IndexedDBHelper.storeCuisines(idbPromise, cuisines);
             fillCuisinesHTML();
         }
     });
@@ -182,43 +161,13 @@ resetRestaurants = (restaurants) => {
  * Get restaurants by cuisine and neighborhood and set their HTML.
  */
 loadRestaurants = (cuisine, neighborhood) => {
-    // get all neighborhoods stored into IDB
-    idbPromise.then(db => {
-        if (!db) return;
-        
-        // get restaurants stored into IDB
-        const store = db.transaction('restaurant')
-                .objectStore('restaurant');
-        let promise;
-        console.log('neighborhood: ' + neighborhood);
-        console.log('cuisine: ' + cuisine);
-        if (cuisine != 'all' && neighborhood != 'all') {
-            console.log('case 1');
-            promise = store.index('neighborhood, cuisine-type')
-                .getAll([neighborhood, cuisine]);
-        } else if (cuisine != 'all') {
-            console.log('case 2');
-            promise = store.index('cuisine-type')
-                .getAll(cuisine);
-        } else if (neighborhood != 'all') {
-            console.log('case 3');
-            promise = store.index('neighborhood')
-                .getAll(neighborhood);
-        } else {
-            console.log('case 4');
-            promise = store.getAll();
+    // get all restaurants stored into IDB
+    IndexedDBHelper.getRestaurants(idbPromise, cuisine, neighborhood, restaurants => {
+        if (restaurants) {
+            resetRestaurants(restaurants);
+            fillRestaurantsHTML();
         }
-        return promise.then(restaurants => {
-            if (restaurants) {
-                resetRestaurants(restaurants);
-                fillRestaurantsHTML();
-            }
-        });
-        
-    }).then(() => {
-        // get restaurants from the server
-        fetchRestaurants(cuisine, neighborhood);
-    });
+    }).then(() => fetchRestaurants(cuisine, neighborhood));
 }
 
 /**
@@ -230,7 +179,7 @@ fetchRestaurants = (cuisine, neighborhood) => {
             console.error(error);
         } else {
             if (restaurants) {
-                storeRestaurants(restaurants);
+                IndexedDBHelper.storeRestaurants(idbPromise, restaurants);
                 resetRestaurants(restaurants);
                 fillRestaurantsHTML();
             }
@@ -318,75 +267,4 @@ registerServiceWorker = () => {
         refreshing = true;
     });
   });
-}
-
-/**
- * Open an indexedDB database for restaurant data.
- */
-openIDB = () => {
-  // If the browser doesn't support service worker,
-  // we don't care about having a database
-  if (!navigator.serviceWorker) {
-    return Promise.resolve();
-  }
-
-  return idb.open('restaurant-reviews-db', 1, function(upgradeDb) {
-      switch(upgradeDb.oldVersion) {
-        case 0:
-            // create restaurant store with indexes
-            let store = upgradeDb.createObjectStore('restaurant', {keyPath: 'id'})
-            store.createIndex('neighborhood, cuisine-type', ['neighborhood', 'cuisine_type']);
-            store.createIndex('neighborhood', 'neighborhood');
-            store.createIndex('cuisine-type', 'cuisine_type');
-            // create cuisine store
-            upgradeDb.createObjectStore('cuisine', {keyPath: 'id'});
-              // create neighborhood store
-            upgradeDb.createObjectStore('neighborhood', {keyPath: 'id'});
-      }
-  });
-}
-
-/**
- * Store restaurant data into indexedDB database.
- */
-storeRestaurants = (restaurants) => {
-    idbPromise.then(db => {
-        let store = db.transaction('restaurant', 'readwrite')
-            .objectStore('restaurant');
-        restaurants.forEach(restaurant => {
-            store.put(restaurant);
-        });
-    });
-}
-
-/**
- * Store neighborhood data into indexedDB database.
- */
-storeNeighborhoods = (neighborhoods) => {
-    idbPromise.then(db => {
-        let store = db.transaction('neighborhood', 'readwrite')
-            .objectStore('neighborhood');
-        neighborhoods.forEach((neighborhood, index) => {
-            store.put({
-                id: index,
-                name: neighborhood
-            });
-        });
-    });
-}
-
-/**
- * Store cuisine data into indexedDB database.
- */
-storeCuisines = (cuisines) => {
-    idbPromise.then(db => {
-        let store = db.transaction('cuisine', 'readwrite')
-            .objectStore('cuisine');
-        cuisines.forEach((cuisine, index) => {
-            store.put({
-                id: index,
-                name: cuisine
-            });
-        });
-    });
 }
