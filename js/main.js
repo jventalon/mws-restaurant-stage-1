@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 loadNeighborhoods = () => {
     // get all neighborhoods stored into IDB
     idbPromise.then(db => {
-        if (!db || showingRestaurants()) return;
+        if (!db) return;
         
         // get neighborhoods stored into IDB
         return db.transaction('neighborhood')
@@ -78,7 +78,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
 loadCuisines = () => {
     // get all cuisines stored into IDB
     idbPromise.then(db => {
-        if (!db || showingRestaurants()) return;
+        if (!db) return;
         
         return db.transaction('cuisine')
             .objectStore('cuisine')
@@ -184,18 +184,37 @@ resetRestaurants = (restaurants) => {
 loadRestaurants = (cuisine, neighborhood) => {
     // get all neighborhoods stored into IDB
     idbPromise.then(db => {
-        if (!db || showingRestaurants()) return;
+        if (!db) return;
         
         // get restaurants stored into IDB
-        return db.transaction('restaurant')
-            .objectStore('restaurant')
-            .getAll()
-            .then(restaurants => {
-                if (restaurants) {
-                    resetRestaurants(restaurants);
-                    fillRestaurantsHTML();
-                }
-            });
+        const store = db.transaction('restaurant')
+                .objectStore('restaurant');
+        let promise;
+        console.log('neighborhood: ' + neighborhood);
+        console.log('cuisine: ' + cuisine);
+        if (cuisine != 'all' && neighborhood != 'all') {
+            console.log('case 1');
+            promise = store.index('neighborhood, cuisine-type')
+                .getAll([neighborhood, cuisine]);
+        } else if (cuisine != 'all') {
+            console.log('case 2');
+            promise = store.index('cuisine-type')
+                .getAll(cuisine);
+        } else if (neighborhood != 'all') {
+            console.log('case 3');
+            promise = store.index('neighborhood')
+                .getAll(neighborhood);
+        } else {
+            console.log('case 4');
+            promise = store.getAll();
+        }
+        return promise.then(restaurants => {
+            if (restaurants) {
+                resetRestaurants(restaurants);
+                fillRestaurantsHTML();
+            }
+        });
+        
     }).then(() => {
         // get restaurants from the server
         fetchRestaurants(cuisine, neighborhood);
@@ -316,6 +335,9 @@ openIDB = () => {
         case 0:
             // create restaurant store with indexes
             let store = upgradeDb.createObjectStore('restaurant', {keyPath: 'id'})
+            store.createIndex('neighborhood, cuisine-type', ['neighborhood', 'cuisine_type']);
+            store.createIndex('neighborhood', 'neighborhood');
+            store.createIndex('cuisine-type', 'cuisine_type');
             // create cuisine store
             upgradeDb.createObjectStore('cuisine', {keyPath: 'id'});
               // create neighborhood store
@@ -367,11 +389,4 @@ storeCuisines = (cuisines) => {
             });
         });
     });
-}
-
-/**
- * Return true if there are restaurants displayed in the view.
- */
-showingRestaurants = () => {
-    return document.getElementById('restaurants-list').children.length > 0;
 }
