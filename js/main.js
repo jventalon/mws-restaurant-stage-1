@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     idbPromise = openIDB();
     // register service worker
     registerServiceWorker();
-    // fetch data
+    // init data
     initMap();
     fetchNeighborhoods();
     fetchCuisines();
@@ -28,6 +28,7 @@ fetchNeighborhoods = () => {
             console.error(error);
         } else {
             self.neighborhoods = neighborhoods;
+            storeNeighborhoods(neighborhoods);
             fillNeighborhoodsHTML();
         }
     });
@@ -55,6 +56,7 @@ fetchCuisines = () => {
             console.error(error);
         } else {
             self.cuisines = cuisines;
+            storeCuisines(cuisines);
             fillCuisinesHTML();
         }
     });
@@ -107,15 +109,18 @@ updateRestaurants = () => {
 
     const cuisine = cSelect[cIndex].value;
     const neighborhood = nSelect[nIndex].value;
-
+    
     DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
         if (error) { // Got an error!
             console.error(error);
         } else {
-            resetRestaurants(restaurants);
-            fillRestaurantsHTML();
+            if (restaurants) {
+                storeRestaurants(restaurants);
+                resetRestaurants(restaurants);
+                fillRestaurantsHTML();
+            }
         }
-    })
+    });
 }
 
 /**
@@ -230,7 +235,61 @@ openIDB = () => {
       switch(upgradeDb.oldVersion) {
         case 0:
             upgradeDb.createObjectStore('restaurant', {keyPath: 'id'})
-                .createIndex('by_cuisine_type', 'cuisineType');
+                .createIndex('cuisine-type', 'cuisine_type');
+            upgradeDb.createObjectStore('cuisine', {keyPath: 'id'});
+            upgradeDb.createObjectStore('neighborhood', {keyPath: 'id'});
       }
   });
+}
+
+/**
+ * Store restaurant data into indexedDB database.
+ */
+storeRestaurants = (restaurants) => {
+    idbPromise.then(db => {
+        let store = db.transaction('restaurant', 'readwrite')
+            .objectStore('restaurant');
+        restaurants.forEach(restaurant => {
+            store.put(restaurant);
+        });
+    });
+}
+
+/**
+ * Store neighborhood data into indexedDB database.
+ */
+storeNeighborhoods = (neighborhoods) => {
+    idbPromise.then(db => {
+        let store = db.transaction('neighborhood', 'readwrite')
+            .objectStore('neighborhood');
+        neighborhoods.forEach((neighborhood, index) => {
+            store.put({
+                id: index,
+                name: neighborhood
+            });
+        });
+    });
+}
+
+/**
+ * Store cuisine data into indexedDB database.
+ */
+storeCuisines = (cuisines) => {
+    idbPromise.then(db => {
+        let store = db.transaction('cuisine', 'readwrite')
+            .objectStore('cuisine');
+        cuisines.forEach((cuisine, index) => {
+            store.put({
+                id: index,
+                name: cuisine
+            });
+        });
+    });
+}
+
+/**
+ * Return true if there are retsuarants displayed in the view.
+ */
+showingRestaurants = () => {
+    return document.getElementById('restaurants-list').children.length > 0;
 }
