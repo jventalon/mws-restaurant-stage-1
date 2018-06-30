@@ -37,9 +37,10 @@ loadNeighborhoods = () => {
                     self.neighborhoods = neighborhoods.map(neighborhood => neighborhood.name);
                     fillNeighborhoodsHTML();
                 }
-                // get all neighborhoods from the server
-                fetchNeighborhoods();
             });
+    }).then(() => {
+        // get all neighborhoods from the server
+        fetchNeighborhoods();
     });
 }
 
@@ -87,9 +88,10 @@ loadCuisines = () => {
                     self.cuisines = cuisines.map(cuisine => cuisine.name);
                     fillCuisinesHTML();
                 }
-                // get all cuisines from the server
-                fetchCuisines();
             });
+    }).then(() => {
+        // get all cuisines from the server
+        fetchCuisines();
     });
 }
 
@@ -193,9 +195,10 @@ loadRestaurants = (cuisine, neighborhood) => {
                     resetRestaurants(restaurants);
                     fillRestaurantsHTML();
                 }
-                // get restaurants from the server
-                fetchRestaurants(cuisine, neighborhood);
             });
+    }).then(() => {
+        // get restaurants from the server
+        fetchRestaurants(cuisine, neighborhood);
     });
 }
 
