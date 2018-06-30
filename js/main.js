@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // open idenxedDB database
     idbPromise = IndexedDBHelper.openIDB();
     // register service worker
-    registerServiceWorker();
+    SWHelper.registerServiceWorker();
     // initialize the map and restaurants
-    initMap();
+    initRestaurantsMap();
     // initialize the neighborhoods and cuisines
     loadNeighborhoods();
     loadCuisines();
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 /**
  * Get all neighborhoods and set their HTML.
  */
-loadNeighborhoods = () => {
+function loadNeighborhoods() {
     // get all neighborhoods stored into IDB
     IndexedDBHelper.getNeighborhoods(idbPromise, neighborhoods => {
         if (neighborhoods) {
@@ -36,7 +36,7 @@ loadNeighborhoods = () => {
 /**
  * Fetch all neighborhoods from the server and store them in IDB.
  */
-fetchNeighborhoods = () => {
+function fetchNeighborhoods() {
     DBHelper.fetchNeighborhoods((error, neighborhoods) => {
         if (error) { // Got an error
             console.error(error);
@@ -51,7 +51,7 @@ fetchNeighborhoods = () => {
 /**
  * Set neighborhoods HTML.
  */
-fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
+function fillNeighborhoodsHTML(neighborhoods = self.neighborhoods) {
     const select = document.getElementById('neighborhoods-select');
     neighborhoods.forEach(neighborhood => {
         const option = document.createElement('option');
@@ -64,7 +64,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
 /**
  * Get all cuisines and set their HTML.
  */
-loadCuisines = () => {
+function loadCuisines() {
     // get all cuisines stored into IDB
     IndexedDBHelper.getCuisines(idbPromise, cuisines => {
         if (cuisines) {
@@ -77,7 +77,7 @@ loadCuisines = () => {
 /**
  * Fetch all cuisines from the server and store them in IDB.
  */
-fetchCuisines = () => {
+function fetchCuisines() {
     DBHelper.fetchCuisines((error, cuisines) => {
         if (error) { // Got an error!
             console.error(error);
@@ -92,7 +92,7 @@ fetchCuisines = () => {
 /**
  * Set cuisines HTML.
  */
-fillCuisinesHTML = (cuisines = self.cuisines) => {
+function fillCuisinesHTML(cuisines = self.cuisines) {
     const select = document.getElementById('cuisines-select');
 
     cuisines.forEach(cuisine => {
@@ -106,7 +106,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 /**
  * Initialize Leaflet map, called from HTML.
  */
-initMap = () => {
+function initRestaurantsMap() {
     self.newMap = L.map('map', {
         center: [40.722216, -73.987501],
         zoom: 12,
@@ -127,7 +127,7 @@ initMap = () => {
 /**
  * Update page and map for current restaurants.
  */
-updateRestaurants = () => {
+function updateRestaurants() {
     const cSelect = document.getElementById('cuisines-select');
     const nSelect = document.getElementById('neighborhoods-select');
 
@@ -143,7 +143,7 @@ updateRestaurants = () => {
 /**
  * Clear current restaurants, their HTML and remove their map markers.
  */
-resetRestaurants = (restaurants) => {
+function resetRestaurants(restaurants) {
     // Remove all restaurants
     self.restaurants = [];
     const ul = document.getElementById('restaurants-list');
@@ -160,7 +160,7 @@ resetRestaurants = (restaurants) => {
 /**
  * Get restaurants by cuisine and neighborhood and set their HTML.
  */
-loadRestaurants = (cuisine, neighborhood) => {
+function loadRestaurants (cuisine, neighborhood) {
     // get all restaurants stored into IDB
     IndexedDBHelper.getRestaurants(idbPromise, cuisine, neighborhood, restaurants => {
         if (restaurants) {
@@ -173,7 +173,7 @@ loadRestaurants = (cuisine, neighborhood) => {
 /**
  * Fetch restaurants by cuisine and neighborhood from the server and store them in IDB.
  */
-fetchRestaurants = (cuisine, neighborhood) => {
+function fetchRestaurants(cuisine, neighborhood) {
     DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
         if (error) { // Got an error!
             console.error(error);
@@ -191,7 +191,7 @@ fetchRestaurants = (cuisine, neighborhood) => {
 /**
  * Create all restaurants HTML and add them to the webpage.
  */
-fillRestaurantsHTML = (restaurants = self.restaurants) => {
+function fillRestaurantsHTML(restaurants = self.restaurants) {
     const ul = document.getElementById('restaurants-list');
     restaurants.forEach(restaurant => {
         ul.append(createRestaurantHTML(restaurant));
@@ -202,7 +202,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 /**
  * Create restaurant HTML.
  */
-createRestaurantHTML = (restaurant) => {
+function createRestaurantHTML(restaurant) {
     const li = document.createElement('li');
     li.className = 'box restaurant';
 
@@ -229,13 +229,13 @@ createRestaurantHTML = (restaurant) => {
     more.href = DBHelper.urlForRestaurant(restaurant);
     li.append(more)
 
-    return li
+    return li;
 }
 
 /**
  * Add markers for current restaurants to the map.
  */
-addMarkersToMap = (restaurants = self.restaurants) => {
+function addMarkersToMap(restaurants = self.restaurants) {
     restaurants.forEach(restaurant => {
         // Add marker to the map
         const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.newMap);
@@ -244,27 +244,5 @@ addMarkersToMap = (restaurants = self.restaurants) => {
             window.location.href = marker.options.url;
         }
         self.markers.push(marker);
-  });
-} 
-
-/**
- * Register the service worker.
- */
-registerServiceWorker = () => {
-  if (!navigator.serviceWorker) return;
-
-  navigator.serviceWorker.register('../../sw.js').then(function(reg) {
-    if (!navigator.serviceWorker.controller) {
-        return;
-    }
-
-    // Ensure refresh is only called once.
-    // This works around a bug in "force update on reload".
-    let refreshing;
-    navigator.serviceWorker.addEventListener('controllerchange', function() {
-        if (refreshing) return;
-        window.location.reload();
-        refreshing = true;
-    });
   });
 }

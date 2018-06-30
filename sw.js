@@ -11,12 +11,10 @@ self.addEventListener('install', function(event) {
       return cache.addAll([
         '/',
         '/restaurant.html',
-        '/js/main.js',
-        '/js/restaurant_info.js',
-        '/js/dbhelper.js',
-        '/js/idb.js',
-        '/js/idbhelper.js',
-        '/css/styles.css',
+        '/js/helpers.min.js',
+        '/js/main.min.js',
+        '/js/restaurant_info.min.js',
+        '/css/styles.min.css',
         ...imageUrls
       ]);
     })

@@ -1,0 +1,31 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "1.0.0",
+  "description": "Project for Udacity Mobile Web Specialist Nanodegree",
+  "private": "true",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jventalon/mws-restaurant-stage-1.git"
+  },
+  "author": "jventalon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jventalon/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/jventalon/mws-restaurant-stage-1#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-babel": "^7.0.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0"
+  }
+}

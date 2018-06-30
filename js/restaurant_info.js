@@ -9,15 +9,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // open idenxedDB database
     idbPromise = IndexedDBHelper.openIDB();
     // register service worker
-    registerServiceWorker();
+    SWHelper.registerServiceWorker();
     // initialize the map and restaurant
-    initMap();
+    initRestaurantMap();
 });
 
 /**
  * Initialize leaflet map
  */
-initMap = () => {
+function initRestaurantMap() {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
         console.error(error);
@@ -44,10 +44,10 @@ initMap = () => {
 /**
  * Get current restaurant from page URL.
  */
-fetchRestaurantFromURL = (callback) => {
+function fetchRestaurantFromURL(callback) {
     const id = getParameterByName('id');
     if (!id) { // no id found in URL
-        error = 'No restaurant id in URL'
+        const error = 'No restaurant id in URL';
         callback(error, null);
     } else {
         IndexedDBHelper.getRestaurantById(idbPromise, id, restaurant => {
@@ -63,7 +63,7 @@ fetchRestaurantFromURL = (callback) => {
 /**
  * Fetch restaurant from the server by id.
  */
-fetchRestaurantById = (id, callback) => {
+function fetchRestaurantById(id, callback) {
     DBHelper.fetchRestaurantById(id, (error, restaurant) => {
         self.restaurant = restaurant;
         if (!restaurant) {
@@ -79,7 +79,7 @@ fetchRestaurantById = (id, callback) => {
 /**
  * Create restaurant HTML and add it to the webpage
  */
-fillRestaurantHTML = (restaurant = self.restaurant) => {
+function fillRestaurantHTML(restaurant = self.restaurant) {
     const name = document.getElementById('restaurant-name');
     name.innerHTML = restaurant.name;
 
@@ -103,7 +103,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 /**
  * Create restaurant operating hours HTML table and add it to the webpage.
  */
-fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
+function fillRestaurantHoursHTML(operatingHours = self.restaurant.operating_hours) {
     const hours = document.getElementById('restaurant-hours');
     for (let key in operatingHours) {
         const row = document.createElement('tr');
@@ -123,7 +123,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+function fillReviewsHTML(reviews = self.restaurant.reviews) {
     const container = document.getElementById('reviews-container');
     const title = document.createElement('h3');
     title.innerHTML = 'Reviews';
@@ -145,7 +145,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 /**
  * Create review HTML and add it to the webpage.
  */
-createReviewHTML = (review) => {
+function createReviewHTML(review) {
     const li = document.createElement('li');
     li.className = 'box review';
 
@@ -186,7 +186,7 @@ createReviewHTML = (review) => {
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
-fillBreadcrumb = (restaurant=self.restaurant) => {
+function fillBreadcrumb(restaurant=self.restaurant) {
     const breadcrumb = document.getElementById('breadcrumb');
     const li = document.createElement('li');
     li.innerHTML = restaurant.name;
@@ -196,7 +196,7 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
 /**
  * Get a parameter by name from page URL.
  */
-getParameterByName = (name, url) => {
+function getParameterByName(name, url) {
     if (!url)
         url = window.location.href;
     name = name.replace(/[\[\]]/g, '\\$&');
@@ -207,26 +207,4 @@ getParameterByName = (name, url) => {
     if (!results[2])
         return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
-
-/**
- * Register the service worker.
- */
-registerServiceWorker = () => {
-  if (!navigator.serviceWorker) return;
-
-  navigator.serviceWorker.register('../../sw.js').then(function(reg) {
-    if (!navigator.serviceWorker.controller) {
-        return;
-    }
-
-    // Ensure refresh is only called once.
-    // This works around a bug in "force update on reload".
-    let refreshing;
-    navigator.serviceWorker.addEventListener('controllerchange', function() {
-        if (refreshing) return;
-        window.location.reload();
-        refreshing = true;
-    });
-  });
 }

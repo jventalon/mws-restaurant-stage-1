@@ -48,7 +48,6 @@ class IndexedDBHelper {
      * Store one restaurant data into indexedDB database.
      */
     static storeRestaurant(idbPromise, restaurant) {
-        console.log('store resto:' + restaurant);
         idbPromise.then(db => {
             if (!db) return;
             
