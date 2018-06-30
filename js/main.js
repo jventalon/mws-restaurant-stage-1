@@ -3,11 +3,17 @@ let restaurants,
     cuisines;
 var newMap;
 var markers = [];
+var idbPromise;
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
+    // open idenxedDB database
+    idbPromise = openIDB();
+    // register service worker
+    registerServiceWorker();
+    // fetch data
     initMap();
     fetchNeighborhoods();
     fetchCuisines();
@@ -201,7 +207,7 @@ registerServiceWorker = () => {
 
     // Ensure refresh is only called once.
     // This works around a bug in "force update on reload".
-    var refreshing;
+    let refreshing;
     navigator.serviceWorker.addEventListener('controllerchange', function() {
         if (refreshing) return;
         window.location.reload();
@@ -210,4 +216,21 @@ registerServiceWorker = () => {
   });
 }
 
-registerServiceWorker();
+/**
+ * Open an indexedDB database for restaurants data.
+ */
+openIDB = () => {
+  // If the browser doesn't support service worker,
+  // we don't care about having a database
+  if (!navigator.serviceWorker) {
+    return Promise.resolve();
+  }
+
+  return idb.open('restaurant-reviews-db', 1, function(upgradeDb) {
+      switch(upgradeDb.oldVersion) {
+        case 0:
+            upgradeDb.createObjectStore('restaurant', {keyPath: 'id'})
+                .createIndex('by_cuisine_type', 'cuisineType');
+      }
+  });
+}
