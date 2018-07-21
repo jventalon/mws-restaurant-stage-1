@@ -5,20 +5,20 @@ var allCaches = [
 ];
 
 self.addEventListener('install', function(event) {
-  event.waitUntil(
-    caches.open(staticCacheName).then(function(cache) {
-      const imageUrls = Array.from(Array(10).keys()).map(i => `/img/${i +1}.jpg`);
-      return cache.addAll([
-        '/',
-        '/restaurant.html',
-        '/js/helpers.min.js',
-        '/js/main.min.js',
-        '/js/restaurant_info.min.js',
-        '/css/styles.min.css',
-        ...imageUrls
-      ]);
-    })
-  );
+    event.waitUntil(
+        caches.open(staticCacheName).then(function(cache) {
+            const imageUrls = Array.from(Array(10).keys()).map(i => `/img/${i +1}.jpg`);
+            return cache.addAll([
+                '/',
+                '/restaurant.html',
+                '/js/main.min.js',
+                '/js/restaurant.min.js',
+                '/css/main.min.css',
+                '/css/restaurant.min.css',
+                ...imageUrls
+            ]);
+        })
+    );
 });
 
 self.addEventListener('activate', function(event) {

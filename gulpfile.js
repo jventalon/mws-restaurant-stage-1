@@ -1,26 +1,34 @@
 /*eslint-env node*/
 const gulp = require('gulp');
-//const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const concat = require('gulp-concat');
 const cssmin = require('gulp-cssmin');
-//const browserSync = require('browser-sync').create();
-//const eslint = require('gulp-eslint');
-//const jasmine = require('gulp-jasmine-phantom');
 const uglify = require('gulp-uglify');
 const babel = require('gulp-babel');
 const sourcemaps = require('gulp-sourcemaps');
 const imagemin = require('gulp-imagemin');
-//const pngquant = require('imagemin-pngquant');
 
-gulp.task('styles', () => {
-    return gulp.src('css/styles.css')
+gulp.task('styles-main', () => {
+    return gulp.src([
+            'css/styles.css',
+            'css/main.css'
+        ])
 		.pipe(autoprefixer({browsers: ['last 2 versions']}))
         .pipe(cssmin())
-        .pipe(concat('styles.min.css'))
+        .pipe(concat('main.min.css'))
 		.pipe(gulp.dest('dist/css'));
 });
 
+gulp.task('styles-restaurant', () => {
+    return gulp.src([
+            'css/styles.css',
+            'css/restaurant.css'
+        ])
+		.pipe(autoprefixer({browsers: ['last 2 versions']}))
+        .pipe(cssmin())
+        .pipe(concat('restaurant.min.css'))
+		.pipe(gulp.dest('dist/css'));
+});
 
 gulp.task('watch', (done) => {
     gulp.watch('css/*.css', gulp.series(['styles']));
@@ -45,15 +53,16 @@ gulp.task('images', () => {
         .pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('sw', () =>{
+gulp.task('scripts-sw', () => {
     return gulp.src('sw.js')
         .pipe(babel({
             presets: ['env']
         }))
+        .pipe(uglify())
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('scripts-main', () =>{
+gulp.task('scripts-main', () => {
     return gulp.src([
             'js/idb.js',
             'js/idbhelper.js',
@@ -71,7 +80,7 @@ gulp.task('scripts-main', () =>{
         .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('scripts-restaurant', () =>{
+gulp.task('scripts-restaurant', () => {
     return gulp.src([
             'js/idb.js',
             'js/idbhelper.js',
@@ -89,6 +98,6 @@ gulp.task('scripts-restaurant', () =>{
         .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('default', gulp.series(['html', 'images', 'styles', 'sw', 'scripts-main', 'scripts-restaurant', 'watch']));
+gulp.task('default', gulp.series(['html', 'images', 'styles-main', 'styles-restaurant', 'scripts-sw', 'scripts-main', 'scripts-restaurant', 'watch']));
 
-gulp.task('dist', gulp.series(['html', 'images', 'styles', 'sw', 'scripts-main', 'scripts-restaurant']));
+gulp.task('dist', gulp.series(['html', 'images', 'styles-main', 'styles-restaurant', 'scripts-sw', 'scripts-main', 'scripts-restaurant']));

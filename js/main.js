@@ -53,6 +53,9 @@ function fetchNeighborhoods() {
  */
 function fillNeighborhoodsHTML(neighborhoods = self.neighborhoods) {
     const select = document.getElementById('neighborhoods-select');
+    let defaultOption = select.firstElementChild;
+    select.innerHTML = '';
+    select.append(defaultOption);
     neighborhoods.forEach(neighborhood => {
         const option = document.createElement('option');
         option.innerHTML = neighborhood;
@@ -94,7 +97,9 @@ function fetchCuisines() {
  */
 function fillCuisinesHTML(cuisines = self.cuisines) {
     const select = document.getElementById('cuisines-select');
-
+    let defaultOption = select.firstElementChild;
+    select.innerHTML = '';
+    select.append(defaultOption);
     cuisines.forEach(cuisine => {
         const option = document.createElement('option');
         option.innerHTML = cuisine;

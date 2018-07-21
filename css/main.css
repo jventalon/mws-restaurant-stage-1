@@ -1,0 +1,257 @@
+@charset "utf-8";
+/* CSS Document */
+
+img {
+    max-width: 100%;
+}
+
+body {
+    font: 16px/1.5 Arial, Helvetica, sans-serif;
+	color: #333;
+	margin: 0;
+    background-color: #f3f3f3;
+}
+
+a {
+	color: orange;
+	text-decoration: none;
+    padding: 15px 3px;
+}
+
+a img {
+	border: none 0 #fff;
+}
+
+h1,
+h2,
+h3 {
+    margin: 0 0 20px;
+}
+
+.footer {
+    background-color: #444;
+    color: #aaa;
+    padding: 20px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.box {
+    width: 100%;
+}
+
+
+/* ====================== Hover and focus ====================== */
+:focus {
+    outline: 0;
+    box-shadow: 0 0 1px 2px orange;
+}
+
+a:hover,
+a:focus,
+select:hover,
+select:focus {
+    text-decoration: underline;
+}
+
+select:hover {
+    cursor: pointer;
+}
+
+.restaurant a:hover,
+.restaurant a:focus {
+    color: orange;
+    background-color: white;
+    border: 2px solid orange;
+}
+
+.main-breadcrumb ul li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+}
+
+
+/* ====================== Navigation ====================== */
+.main-header {
+    background-color: #252831;
+    text-align: center;
+    padding: 10px;
+}
+
+.main-header h1 {
+    margin: auto;
+}
+
+.main-header h1 a {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 200;
+    letter-spacing: 5px;
+    word-spacing: 5px;
+    text-transform: uppercase;
+}
+
+/* ====================== Map ====================== */
+.map {
+    height: 300px;
+    background-color: #ccc;
+}
+
+/* ====================== Restaurant Filtering ====================== */
+.filter-options {
+    background-color: #3397db;
+    padding: 20px 30px;
+}
+
+.filter-options-title {
+    text-align: center;
+}
+
+.filter-options h2 {
+    color: white;
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0;
+}
+
+.filter-options-neighborhoods,
+.filter-options-cuisines {
+    margin: 20px 0;
+}
+
+.filter-options select {
+    border: 1px solid #fff;
+    font: 16px Arial, sans-serif;
+    padding: 13px 10px;
+    width: 100%;
+}
+
+
+/* ====================== Restaurant Listing ====================== */
+.restaurants {
+    background-color: #f3f3f3;
+    list-style: outside none none;
+    padding: 15px 0;
+    margin: 0;
+    text-align: center;
+}
+
+.restaurant {
+    background-color: #fff;
+    border: 2px solid #ccc;
+    padding: 0 0 20px;
+    margin: 25px;
+}
+
+.restaurant h2 {
+    color: #f18200;
+    font: 200 18px/1.3 Arial, sans-serif;
+    margin: 20px 10px 10px;
+    text-transform: uppercase;
+}
+
+.restaurant p {
+    margin: 0 15px;
+    font-size: 17px;
+}
+
+.restaurant a {
+    background-color: orange;
+    border-bottom: 3px solid #eee;
+    color: white;
+    display: inline-block;
+    font-size: 16px;
+    margin: 15px 0 0;
+    padding: 11px 30px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+
+/* ====================== Screen width up to 480px ====================== */
+@media screen and (min-width:371px) {
+    .main-header {
+        padding: 10px 30px;
+    }
+
+    .main-header h1 a {
+        font-size: 25px;
+    }
+}
+
+@media screen and (min-width:451px) {
+    .main-header {
+        padding: 25px 30px;
+    }
+}
+
+
+/* ====================== Screen width from 481px to 540px ====================== */
+@media screen and (min-width:481px) {
+    .map {
+        height: 450px;
+    }
+
+    .filter-options-neighborhoods,
+    .filter-options-cuisines {
+        width: calc(50% - 20px);
+    }
+
+    .filter-options-neighborhoods {
+        margin: 20px 20px 0 0;
+    }
+
+    .filter-options-cuisines {
+        margin: 20px 0 0 20px;
+    }
+}
+
+
+/* ====================== Screen width from 541px to 640px ====================== */
+@media screen and (min-width:541px) {
+    .restaurant {
+        width: calc(50% - 54px);
+    }
+}
+
+
+/* ====================== Screen width from 961px to 1199px ====================== */
+@media screen and (min-width:961px) {
+    .filter-options {
+        padding: 30px;
+    }
+
+    .filter-options-title {
+        width: 20%;
+        margin: 10px 0;
+        text-align: left;
+    }
+
+    .filter-options-neighborhoods {
+        width: calc(40% - 20px);
+        margin: 0 20px 0 0;
+    }
+
+    .filter-options-cuisines {
+        width: calc(40% - 20px);
+        margin: 0 0 0 20px;
+    }
+
+    .restaurant {
+        width: calc(33.33% - 54px);
+    }
+}
+
+
+/* ====================== Screen width above 1200px ====================== */
+@media screen and (min-width:1200px) {
+    .maincontent,
+    .main-breadcrumb ul {
+        margin: 0 50px;
+    }
+}

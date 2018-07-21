@@ -125,6 +125,10 @@ function fillRestaurantHoursHTML(operatingHours = self.restaurant.operating_hour
  */
 function fillReviewsHTML(reviews = self.restaurant.reviews) {
     const container = document.getElementById('reviews-container');
+    const ul = document.getElementById('reviews-list');
+    ul.innerHTML = '';
+    container.innerHTML = '';
+    container.appendChild(ul);
     const title = document.createElement('h3');
     title.innerHTML = 'Reviews';
     container.appendChild(title);
@@ -135,7 +139,6 @@ function fillReviewsHTML(reviews = self.restaurant.reviews) {
         container.appendChild(noReviews);
         return;
     }
-    const ul = document.getElementById('reviews-list');
     reviews.forEach(review => {
         ul.appendChild(createReviewHTML(review));
     });
