@@ -15,6 +15,7 @@ self.addEventListener('install', function(event) {
                 '/js/restaurant.min.js',
                 '/css/main.min.css',
                 '/css/restaurant.min.css',
+                '/manifest.json',
                 ...imageUrls
             ]);
         })

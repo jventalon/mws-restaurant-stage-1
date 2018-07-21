@@ -10,7 +10,6 @@ const imagemin = require('gulp-imagemin');
 
 gulp.task('styles-main', () => {
     return gulp.src([
-            'css/styles.css',
             'css/main.css'
         ])
 		.pipe(autoprefixer({browsers: ['last 2 versions']}))
@@ -21,7 +20,6 @@ gulp.task('styles-main', () => {
 
 gulp.task('styles-restaurant', () => {
     return gulp.src([
-            'css/styles.css',
             'css/restaurant.css'
         ])
 		.pipe(autoprefixer({browsers: ['last 2 versions']}))
@@ -98,6 +96,11 @@ gulp.task('scripts-restaurant', () => {
         .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('default', gulp.series(['html', 'images', 'styles-main', 'styles-restaurant', 'scripts-sw', 'scripts-main', 'scripts-restaurant', 'watch']));
+gulp.task('manifest', () => {
+    return gulp.src('manifest.json')
+        .pipe(gulp.dest('dist'));
+});
 
-gulp.task('dist', gulp.series(['html', 'images', 'styles-main', 'styles-restaurant', 'scripts-sw', 'scripts-main', 'scripts-restaurant']));
+gulp.task('default', gulp.series(['html', 'images', 'styles-main', 'styles-restaurant', 'scripts-sw', 'scripts-main', 'scripts-restaurant', 'manifest', 'watch']));
+
+gulp.task('dist', gulp.series(['html', 'images', 'styles-main', 'styles-restaurant', 'scripts-sw', 'scripts-main', 'scripts-restaurant', 'manifest']));
